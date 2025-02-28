@@ -12,7 +12,7 @@ namespace AnimusTest.Models {
         //public List<Shape> Shapes { get; set; } = new List<Shape>(); // тестові шейпи
         public List<Stroke> Strokes { get; set; } = new List<Stroke>();
 
-        private Bitmap cashedImage = null;
+        private Bitmap cashedBitmap = null; 
         private bool isDirty = false;
 
         public void GetRenderedBitmap()

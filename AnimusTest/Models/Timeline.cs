@@ -6,11 +6,15 @@ using System.Windows.Shapes;
 
 namespace AnimusTest.Models {
 
-    public class Timeline {
+    public class Timeline
+    {
         public List<Keyframe> Frames { get; set; } = new List<Keyframe>();
+        public double duration = 10000; // playtime duration in ms
+        public int fps = 24;
 
-        public void AddTestData() {
-            
+        public void AddTestData()
+        {
+
             /*
             for (int i = 0; i < 3; i++) {
                 var frame = new Keyframe { FrameNumber = i };
@@ -54,22 +58,29 @@ namespace AnimusTest.Models {
             */
         }
 
-        public void DisplayTimeline(ListBox timelineList) {
+        public void DisplayTimeline(ListBox timelineList)
+        {
 
             timelineList.Items.Clear();
 
-            for (int i = 0; i < Frames.Count; i++) {
+            for (int i = 0; i < Frames.Count; i++)
+            {
 
-                ListBoxItem item = new ListBoxItem {
+                ListBoxItem item = new ListBoxItem
+                {
 
                     Content = $"Frame {i + 1}",
-                    Tag = Frames[i] 
+                    Tag = Frames[i]
                 };
 
                 timelineList.Items.Add(item);
             }
         }
 
-    }
+        public void UpdateTimeline(ListBox timelineList)
+        {
+            timelineList.Items.Clear();
+        }
 
+    }
 }

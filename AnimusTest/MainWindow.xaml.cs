@@ -35,9 +35,9 @@ namespace AnimusTest
 
             timeline.AddTestData(); // Додаємо тестові кадри
             //RenderFrame(0);
-            timeline.Frames.Add(new Keyframe());
-            timeline.Frames.Add(new Keyframe());
-            timeline.Frames.Add(new Keyframe());
+            timeline.Frames.Add(new Keyframe("TinkiWinki"));
+            timeline.Frames.Add(new Keyframe("Dipsi"));
+            timeline.Frames.Add(new Keyframe("LalaPo"));
             RefreshTimelineUI();
 
 
@@ -127,9 +127,10 @@ namespace AnimusTest
 
             for (int i = 0; i < timeline.Frames.Count; i++) {
 
-                TimelineList.Items.Add($"Frame {i}");
+                TimelineList.Items.Add($"Frame {i}: {timeline.Frames[i].title}");
             }
             TimelineList.SelectedIndex = 0; 
+            //TimelineList.SelectedItems = timeline.Frames;
 
             RefreshLayerListUI();
 
@@ -181,7 +182,7 @@ namespace AnimusTest
             for (int i = 0; i < timeline.Frames.Count; i++) {
                 
                 ListBoxItem item = new ListBoxItem {
-                    Content = $"Frame {i}",
+                    Content = $"Frame {i}: {timeline.Frames[i].title}",
                     Tag = timeline.Frames[i]
                 };
 
@@ -207,7 +208,27 @@ namespace AnimusTest
             }
         }
 
-        private void PlayAnimation()
+        private async void PlayAnimation(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < timeline.Frames.Count; i++)
+            {
+                //currentFrame = timeline.Frames[i];
+                RenderFrame(timeline.Frames[i]);
+                await Task.Delay(1000 / timeline.fps);
+            }
+        }
+
+
+        private void StopAnimation(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PauseAnimation(object sender, RoutedEventArgs e) {
+            
+        }
+
+        private void DisplayOnionSkin()
         {
 
         }

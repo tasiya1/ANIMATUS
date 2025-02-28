@@ -26,8 +26,16 @@
         </StackPanel>
 
         <!-- Нижня панель (ТАЙМЛАЙН) -->
-        <ListBox Name="TimelineList" DockPanel.Dock="Bottom" Height="150" SelectionChanged="TimelineList_SelectionChanged" Background="Gray"
-                 />
+        <StackPanel DockPanel.Dock="Bottom" Height="150">
+            <StackPanel DockPanel.Dock="Top" Height="30" Background="LightSlateGray" Orientation="Horizontal">
+                <Button Content="▷" Background="LightGray" Width="30" Height="30" Click="PlayAnimation"></Button>
+                <Button Content="⏸" Background="LightGray" Width="30" Height="30" Click="PauseAnimation"></Button>
+                <Button Content="◼" Background="LightGray" Width="30" Height="30" Click="StopAnimation"></Button>
+            </StackPanel>
+            <ListBox Name="TimelineList" Height="100"  DockPanel.Dock="Bottom" SelectionChanged="TimelineList_SelectionChanged" Background="Gray"></ListBox>
+
+            
+        </StackPanel>
 
         <!-- КАНВАС -->
         <Canvas Name="DrawCanvas" Background="White" Margin="20"
