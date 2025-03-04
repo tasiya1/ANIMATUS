@@ -5,12 +5,18 @@
     <DockPanel LastChildFill="True" Background="DarkSlateGray">
 
         <!-- Верхня панель (МЕНЮ) -->
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="LightGray" Height="30">
-            <Button Content="File" Width="80"/>
-            <Button Content="Edit" Width="120"/>
-            <Button Content="Render" Width="150"/>
-            <Button Content="Print Info" Width="150" Background="AliceBlue" FontStyle="Oblique"/>
-        </StackPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Command="New" />
+                <Separator />
+                <MenuItem Header="_Exit" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Command="Cut" />
+                <MenuItem Command="Copy" />
+                <MenuItem Command="Paste" />
+            </MenuItem>
+        </Menu>
 
         <!-- Ліва панель (ІНСТРУМЕНТИ) -->
         <StackPanel DockPanel.Dock="Left" Background="DarkGray" Width="60">
@@ -26,15 +32,19 @@
         </StackPanel>
 
         <!-- Нижня панель (ТАЙМЛАЙН) -->
-        <StackPanel DockPanel.Dock="Bottom" Height="150">
+        <StackPanel DockPanel.Dock="Bottom" Height="140">
             <StackPanel DockPanel.Dock="Top" Height="30" Background="LightSlateGray" Orientation="Horizontal">
                 <Button Content="▷" Background="LightGray" Width="30" Height="30" Click="PlayAnimation"></Button>
                 <Button Content="⏸" Background="LightGray" Width="30" Height="30" Click="PauseAnimation"></Button>
                 <Button Content="◼" Background="LightGray" Width="30" Height="30" Click="StopAnimation"></Button>
             </StackPanel>
-            <ListBox Name="TimelineList" Height="100"  DockPanel.Dock="Bottom" SelectionChanged="TimelineList_SelectionChanged" Background="Gray"></ListBox>
 
-            
+            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+
+                <Canvas Name="TimelineCanvas" Height="110" Width="1220" Background="LightGray"/>
+
+            </ScrollViewer>
+
         </StackPanel>
 
         <!-- КАНВАС -->

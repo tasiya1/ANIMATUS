@@ -9,11 +9,12 @@ namespace AnimusTest.Models {
         public int FrameNumber { get; set; }
         public string title;
 
-        public bool isKey = false;
+        public bool isKey = true;
         public List<Layer> Layers { get; set; } = new List<Layer>();
 
         public Keyframe(string title) { 
             this.title = title;
+            Layers.Add(new Layer());
         }
 
     }

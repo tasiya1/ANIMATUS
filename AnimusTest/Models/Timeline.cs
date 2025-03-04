@@ -18,7 +18,7 @@ namespace AnimusTest.Models {
             /*
             for (int i = 0; i < 3; i++) {
                 var frame = new Keyframe { FrameNumber = i };
-                var layer = new Layer { Name = $"Layer {i}" };
+                var layer = new Layer { title = $"Layer {i}" };
 
                 Shape shape = i switch {
                     0 => new Polygon {
@@ -82,5 +82,18 @@ namespace AnimusTest.Models {
             timelineList.Items.Clear();
         }
 
+        /*
+        private void LoadTimeline(ListBox timelineList)
+        {
+            for (int i = 1; i <= 20; i++)
+            {
+                timelineList.Items.Add(new Keyframe
+                {
+                    frameNumber = i,
+                    BackgroundColor = Brushes.White
+                });
+            }
+        }
+        */
     }
 }

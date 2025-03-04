@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AnimusTest.Models;
+using AnimusTest.Views;
 
 namespace AnimusTest
 {
@@ -23,6 +24,11 @@ namespace AnimusTest
         private Timeline timeline = new Timeline();
         private Keyframe currentFrame;
         private Layer currentLayer;
+
+        public OnionSkin onionSkin = new();
+        public bool showOnionSkin = true;
+
+        private bool testFrames = true;
         // тут створити унікальний список шарів
 
 
@@ -33,15 +39,17 @@ namespace AnimusTest
             InitializeComponent();
             //MessageBox.Show($"Initial Size: {this.Width}x{this.Height}");
 
-            timeline.AddTestData(); // Додаємо тестові кадри
+            timeline.AddTestData();
             //RenderFrame(0);
+            timeline.Frames.Add(new Keyframe("Тернопіль"));
+            timeline.Frames.Add(new Keyframe("Львів"));
+            timeline.Frames.Add(new Keyframe("Івано-Франківськ"));
             timeline.Frames.Add(new Keyframe("TinkiWinki"));
             timeline.Frames.Add(new Keyframe("Dipsi"));
             timeline.Frames.Add(new Keyframe("LalaPo"));
-            RefreshTimelineUI();
+            RenderTimeline();
 
 
-            timeline.DisplayTimeline(TimelineList);
 
         }
 
@@ -67,7 +75,7 @@ namespace AnimusTest
             if (isDrawing) {
                 currentStroke.Points.Add(e.GetPosition(DrawCanvas));
 
-                RenderFrame(currentFrame);
+                DisplayFrame(currentFrame);
 
                 currentLine.Points.Add(e.GetPosition(DrawCanvas));
                 DrawCanvas.Children.Add(currentLine);
@@ -88,7 +96,7 @@ namespace AnimusTest
             }
 
             currentLayer.Strokes.Add(currentStroke);
-            RenderFrame(currentFrame);
+            DisplayFrame(currentFrame);
 
             // ***** ЧОМУ Ж ТИ НЕ РЕНДЕРИШСЯ!??
         }
@@ -123,36 +131,171 @@ namespace AnimusTest
         }
 
 
-        private void Window_Loaded(object sender, RoutedEventArgs e) {
+        private void DisplayFrame(Keyframe frame)
+        {
+            DrawCanvas.Children.Clear();
 
-            for (int i = 0; i < timeline.Frames.Count; i++) {
+            if (showOnionSkin)
+            {
+                if (onionSkin.showPrev)
+                {
+                    for (int i = 0; i < onionSkin.amountPrev; i++)
+                    {
 
-                TimelineList.Items.Add($"Frame {i}: {timeline.Frames[i].title}");
-            }
-            TimelineList.SelectedIndex = 0; 
-            //TimelineList.SelectedItems = timeline.Frames;
-
-            RefreshLayerListUI();
-
-        }
-
-        private void TimelineList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            
-            if (TimelineList.SelectedIndex >= 0 && TimelineList.SelectedIndex < timeline.Frames.Count) {
-
-                currentFrame = timeline.Frames[TimelineList.SelectedIndex];
-
-                if (currentFrame.Layers.Count > 0) {
-                    currentLayer = currentFrame.Layers[0]; // поки шо буде так
-                } else {
-                    currentLayer = new Layer();
-                    currentFrame.Layers.Add(currentLayer);
+                        int prevIndex = timeline.Frames.IndexOf(frame) - 1;
+                        if (prevIndex >= 0)
+                        {
+                            DrawOnionSkin(timeline.Frames[prevIndex], Colors.Red, onionSkin.opacityIndexes[0]);
+                        }
+                    }
                 }
 
-                RenderFrame(currentFrame);
+                if (onionSkin.showNext)
+                {
+                    for (int i = 0; i <= onionSkin.amountNext; i++)
+                    {
+                        int nextIndex = timeline.Frames.IndexOf(frame) + 1;
+                        if (nextIndex < timeline.Frames.Count)
+                        {
+                            DrawOnionSkin(timeline.Frames[nextIndex], Colors.Green, onionSkin.opacityIndexes[0]);
+                        }
+                    }
+                }
+            }
+
+            foreach (Layer layer in frame.Layers)
+            {
+                foreach (Stroke stroke in layer.Strokes)
+                {
+                    DrawStroke(stroke, Colors.Navy, 1.0);
+                }
             }
         }
 
+        private void DrawOnionSkin(Keyframe frame, Color color, double opacity)
+        {
+            foreach (Layer layer in frame.Layers)
+            {
+                foreach (Stroke stroke in layer.Strokes)
+                {
+                    DrawStroke(stroke, color, opacity);
+                }
+            }
+        }
+
+        private void DrawStroke(Stroke stroke, Color color, double opacity)
+        {
+            Polyline polyline = new Polyline
+            {
+                Stroke = new SolidColorBrush(Color.FromArgb((byte)(opacity * 255), color.R, color.G, color.B)),
+                StrokeThickness = stroke.Width
+            };
+
+            foreach (Point p in stroke.Points)
+            {
+                polyline.Points.Add(p);
+            }
+
+            DrawCanvas.Children.Add(polyline);
+        }
+
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
+
+            RenderTimeline();
+
+        }
+
+        private void RenderTimeline()
+        {
+            TimelineCanvas.Children.Clear();
+            int startOffset = 50;
+            double frameWidth = 20;
+            double timelineHeight = TimelineCanvas.Height;
+
+            Polyline polyline = new Polyline
+            {
+                Points = new PointCollection { new Point(0, 25), new Point(TimelineCanvas.Width, 25) },
+                Stroke = Brushes.Gray,
+                StrokeThickness = 1
+            };
+
+            TimelineCanvas.Children.Add(polyline);
+
+            polyline = new Polyline
+            {
+                Points = new PointCollection { new Point(startOffset, 0), new Point(startOffset, timelineHeight) },
+                Stroke = Brushes.Gray,
+                StrokeThickness = 1
+            };
+
+            TimelineCanvas.Children.Add(polyline);
+
+            for (int i = 0; i < timeline.Frames.Count; i++)
+            {
+                Keyframe frame = timeline.Frames[i];
+
+                if (frame.isKey)
+                {
+                    Polygon diamond = new Polygon
+                    {
+                        Points = new PointCollection
+                {
+                    new Point(0, 5),
+                    new Point(5, 10),
+                    new Point(0, 15),
+                    new Point(-5, 10)
+                },
+                        Fill = Brushes.CadetBlue,
+                        Stroke = Brushes.Blue,
+                        StrokeThickness = 1
+                    };
+
+                    Canvas.SetLeft(diamond, i * frameWidth + startOffset);
+                    Canvas.SetTop(diamond, 50);
+
+                    int frameIndex = i;
+                    diamond.Tag = frame;
+                    diamond.MouseDown += OnKeyframeClick;
+
+                    TimelineCanvas.Children.Add(diamond);
+                    
+                }
+            }
+            for (int i = 0; i < ((TimelineCanvas.Width-startOffset) / 20); i++)
+            {
+                int computedX = i * 20;
+                TextBlock textBlock = new TextBlock();
+                textBlock.Foreground = Brushes.Gray;
+                textBlock.Text = i.ToString();
+                Canvas.SetLeft(textBlock, computedX - 5 + startOffset);
+                Canvas.SetTop(textBlock, 3);
+
+                polyline = new Polyline
+                {
+                    Points = new PointCollection { new Point(computedX + startOffset, 20), new Point(computedX + startOffset, 35) },
+                    Stroke = Brushes.Gray,
+                    StrokeThickness = 1
+                };
+
+                
+                TimelineCanvas.Children.Add(polyline);
+                TimelineCanvas.Children.Add(textBlock);
+            }
+        }
+
+
+        private void OnKeyframeClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Polygon polygon && polygon.Tag is Keyframe frame)
+            {
+                currentFrame = frame;
+                currentLayer = currentFrame.Layers[0];
+                DisplayFrame(currentFrame);
+                MessageBox.Show($"Selected frame: {currentFrame.title}");
+            }
+        }
         private void LayerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (LayerList.SelectedIndex >= 0 && LayerList.SelectedIndex < currentFrame.Layers.Count)
@@ -172,21 +315,6 @@ namespace AnimusTest
                 }
                 */
 
-            }
-        }
-
-        private void RefreshTimelineUI() {
-
-            TimelineList.Items.Clear();
-
-            for (int i = 0; i < timeline.Frames.Count; i++) {
-                
-                ListBoxItem item = new ListBoxItem {
-                    Content = $"Frame {i}: {timeline.Frames[i].title}",
-                    Tag = timeline.Frames[i]
-                };
-
-                TimelineList.Items.Add(item);
             }
         }
 
@@ -228,11 +356,13 @@ namespace AnimusTest
             
         }
 
-        private void DisplayOnionSkin()
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
         {
-
+            WelcomeWindow welcomeWindow = new WelcomeWindow();
+            welcomeWindow.Show();
+            this.Close();
         }
-
 
     }
 }

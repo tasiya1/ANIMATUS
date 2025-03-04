@@ -8,7 +8,7 @@ using System.Windows.Shapes;
 
 namespace AnimusTest.Models {
     public class Layer {
-        public string Name { get; set; }
+        public string title { get; set; } = "Untitled";
         //public List<Shape> Shapes { get; set; } = new List<Shape>(); // тестові шейпи
         public List<Stroke> Strokes { get; set; } = new List<Stroke>();
 
