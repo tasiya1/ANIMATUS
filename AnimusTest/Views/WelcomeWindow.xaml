@@ -15,6 +15,7 @@
 
             <Button Background="White" Margin="5" Content="New Project" Width="250" Height="50" FontSize="18" Click="NewProject_Click"/>
             <Button Background="White" Margin="5" Content="Open Existing" Width="250" Height="50" FontSize="18" Click="OpenProject_Click"/>
+            <Button Background="White" Margin="5" Content="Create Illustration" Width="250" Height="50" FontSize="18" Click="NewIllustration_Click"/>
             <Button Background="White" Margin="5" Content="Exit" Width="250" Height="50" FontSize="18" Click="Exit_Click"/>
         </StackPanel>
     </Grid>

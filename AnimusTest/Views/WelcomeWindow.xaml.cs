@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using AnimusTest.Controls;
 
 namespace AnimusTest.Views
 {
@@ -24,7 +25,16 @@ namespace AnimusTest.Views
 
         public void OpenProject_Click(Object sender, EventArgs e)
         {
-            MessageBox.Show("Open project message!");
+            MainWindow mainWindow = new MainWindow(); // тут треба продумати, як між двома різними компонентами передавати процес, в цьому випадку - одне вікно запускає процес передачі відкритого файлу іншому вікну
+            mainWindow.Show();
+            this.Close();
+        }
+
+        public void NewIllustration_Click(Object sender, EventArgs e)
+        {
+            IllustratorWindow illustratorWindow = new IllustratorWindow();
+            illustratorWindow.Show();
+            this.Close();
         }
 
         public void Exit_Click(object sender, EventArgs e)

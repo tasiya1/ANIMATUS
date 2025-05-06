@@ -25,6 +25,17 @@ namespace AnimusTest.Models {
 
         }
 
+        public void Remove(Stroke stroke)
+        {
+            //throw new NotImplementedException();
+            Strokes.Remove(stroke);
+        }
+
+        public void Add(Stroke stroke)
+        {
+            //throw new NotImplementedException();
+            Strokes.Add(stroke);
+        }
     }
 
 

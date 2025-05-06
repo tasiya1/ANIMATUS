@@ -7,7 +7,9 @@
         <!-- Верхня панель (МЕНЮ) -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Command="New" />
+                <MenuItem IsEnabled="True" Header="New"/>
+                <MenuItem IsEnabled="True" Header="Open" Click="OpenProject_Click"/>
+                <MenuItem IsEnabled="True" Header="Save"  Click="SaveProject_Click"/>
                 <Separator />
                 <MenuItem Header="_Exit" Click="Exit_Click"/>
             </MenuItem>
@@ -20,28 +22,30 @@
 
         <!-- Ліва панель (ІНСТРУМЕНТИ) -->
         <StackPanel DockPanel.Dock="Left" Background="DarkGray" Width="60">
-            <Button Content="✏" Width="40" Height="40" />
-            <Button Content="🧹" Width="40" Height="40" />
+            <Button Content="✏" Style="{StaticResource ToolButtonStyle}" Width="40" Height="40" />
+            <Button Content="🧹" Width="40" Style="{StaticResource ToolButtonStyle}" Height="40" />
+            <Button x:Name="UndoButton" Content="↶" Width="40" Style="{StaticResource ToolButtonStyle}" Height="40" Click="Undo_Click" IsEnabled="False"/>
+            <Button x:Name="RedoButton" Content="↷" Width="40" Style="{StaticResource ToolButtonStyle}" Height="40" Click="Redo_Click" IsEnabled="False"/>
         </StackPanel>
 
         <!-- Права панель (ШАРИ) -->
         <StackPanel DockPanel.Dock="Right" Background="LightGray" Width="200">
             <TextBlock Text="LAYERS" Padding="5"/>
             <ListBox Name="LayerList" Height="350" SelectionChanged="LayerList_SelectionChanged" Background="Gray"/>
-
+            <ToolBar></ToolBar>
         </StackPanel>
 
         <!-- Нижня панель (ТАЙМЛАЙН) -->
         <StackPanel DockPanel.Dock="Bottom" Height="140">
-            <StackPanel DockPanel.Dock="Top" Height="30" Background="LightSlateGray" Orientation="Horizontal">
-                <Button Content="▷" Background="LightGray" Width="30" Height="30" Click="PlayAnimation"></Button>
-                <Button Content="⏸" Background="LightGray" Width="30" Height="30" Click="PauseAnimation"></Button>
-                <Button Content="◼" Background="LightGray" Width="30" Height="30" Click="StopAnimation"></Button>
+            <StackPanel DockPanel.Dock="Top" Height="40" Background="LightSlateGray" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="▷"  Style="{StaticResource ToolButtonStyle}" Width="40" Height="40" Click="PlayAnimation"></Button>
+                <Button Content="⏸" Style="{StaticResource ToolButtonStyle}" Width="40" Height="40" Click="PauseAnimation"></Button>
+                <Button Content="◼"  Style="{StaticResource ToolButtonStyle}" Width="40" Height="40" Click="StopAnimation"></Button>
             </StackPanel>
 
-            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer HorizontalScrollBarVisibility="Visible">
 
-                <Canvas Name="TimelineCanvas" Height="110" Width="1220" Background="LightGray"/>
+                <Canvas Name="TimelineCanvas" Height="110" Width="1270" Background="LightGray" MouseDown="TimelineCursor_MouseDown" MouseUp="TimelineCanvas_MouseUp" MouseMove="TimelineCursor_MouseMove"/>
 
             </ScrollViewer>
 
