@@ -4,13 +4,31 @@
              xmlns:local="clr-namespace:AnimusTest"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+
+        <FontFamily x:Key="AppFont">pack://application:,,,/Media/Fonts/#Oxanium Regular</FontFamily>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+        </Style>
+
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+        </Style>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+        </Style>
+
+
         <Style x:Key="ToolButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#E3E3E3"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Background" Value="#202020"/>
+            <Setter Property="Foreground" Value="#CFCFCF"/>
+            <Setter Property="Width" Value="37"/>
+            <Setter Property="Height" Value="37"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontWeight" Value="Light"/>
             <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="BorderBrush" Value="#CFCFCF"/>
+            <Setter Property="BorderBrush" Value="#737373"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -21,7 +39,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="8"
+                            CornerRadius="3"
                             Margin="2">
                             <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
@@ -29,12 +47,59 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#e5c4ff"/>
+                                <Setter TargetName="border" Property="Background" Value="#404040"/>
                                 <Setter TargetName="border" Property="BorderBrush" Value="#dbadff"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#dbadff"/>
+                                <Setter TargetName="border" Property="Background" Value="#707070"/>
                                 <Setter TargetName="border" Property="BorderBrush" Value="#ca92f7"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#202020"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#535353"/>
+                                <Setter Property="Foreground" Value="#555555"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style x:Key="WelcomeButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FFF"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="65"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="8"
+                    Margin="2">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#fcf7ff"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#e5c4ff"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#e5c4ff"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#dbadff"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="border" Property="Background" Value="#EEEEEE"/>

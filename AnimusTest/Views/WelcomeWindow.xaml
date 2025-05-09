@@ -11,12 +11,42 @@
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Welcome back!" FontSize="48" FontWeight="Bold" Foreground="White"
-                       HorizontalAlignment="Center" TextAlignment="Center"/>
+                       HorizontalAlignment="Center" TextAlignment="Center" Margin="20"/>
 
-            <Button Background="White" Margin="5" Content="New Project" Width="250" Height="50" FontSize="18" Click="NewProject_Click"/>
-            <Button Background="White" Margin="5" Content="Open Existing" Width="250" Height="50" FontSize="18" Click="OpenProject_Click"/>
-            <Button Background="White" Margin="5" Content="Create Illustration" Width="250" Height="50" FontSize="18" Click="NewIllustration_Click"/>
-            <Button Background="White" Margin="5" Content="Exit" Width="250" Height="50" FontSize="18" Click="Exit_Click"/>
+            <Button Style="{StaticResource WelcomeButtonStyle}" Click="NewProject_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="/Views/plus.png" Width="28" Height="28" Margin="0,0,5,5"/>
+                    <TextBlock Text="New Project" VerticalAlignment="Center" FontSize="18"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource WelcomeButtonStyle}" Click="OpenProject_Click">
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="/Media/folder-open.png" Width="28" Height="28" Margin="0,0,5,5"/>
+                    <TextBlock Text="Open Existing" VerticalAlignment="Center" FontSize="18"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource WelcomeButtonStyle}" Click="NewIllustration_Click">
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="/Views/plus.png" Width="28" Height="28" Margin="0,0,5,5"/>
+                    <TextBlock Text="Create Illustration" VerticalAlignment="Center" FontSize="18"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource WelcomeButtonStyle}" Click="MyPortfolio_Click">
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="/Media/documents.png" Width="28" Height="28" Margin="0,0,5,5"/>
+                    <TextBlock Text="My Portfolio" VerticalAlignment="Center" FontSize="18"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource WelcomeButtonStyle}" Click="Exit_Click">
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="/Media/close.png" Width="28" Height="28" Margin="0,0,5,5"/>
+                    <TextBlock Text="Exit" VerticalAlignment="Center" FontSize="18"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

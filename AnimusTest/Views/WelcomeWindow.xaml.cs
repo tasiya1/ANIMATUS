@@ -41,5 +41,12 @@ namespace AnimusTest.Views
         {
             this.Close();
         }
+
+        public void MyPortfolio_Click(object sender, EventArgs e)
+        {
+            MyPortfolioWindow myPortfolioWindow = new MyPortfolioWindow();
+            myPortfolioWindow.Show();
+            this.Close();
+        }
     }
 }

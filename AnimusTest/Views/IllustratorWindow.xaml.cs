@@ -11,18 +11,22 @@ using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System.Windows.Controls;
 using AnimusTest.Machines;
+using AnimusTest.Models;
 
 namespace AnimusTest.Views
 {
 
     public partial class IllustratorWindow : Window
     {
+        
         private SKBitmap bitmap;
         private SKCanvas drawingCanvas;
-        private SKPaint paint;
-        private bool isDrawing = false;
+        //private bool isDrawing = false;
         private SKPoint previousPoint;
-        private VectorProjectHistory projectHistory = new();
+        private RasterProjectHistory projectHistory = new();
+
+        private DrawingMachine DM;
+        
 
         private float scaleX;
         private float scaleY;
@@ -32,10 +36,15 @@ namespace AnimusTest.Views
         {
             InitializeComponent();
 
+            SkiaCanvas.PaintSurface += SkiaCanvas_PaintSurface;
+
             bitmap = new SKBitmap(1500, 820);
             drawingCanvas = new SKCanvas(bitmap);
-            
 
+
+            DM = new DrawingMachine(bitmap, drawingCanvas);
+
+            /*
             paint = new SKPaint
             {
                 Color = SKColors.Black,
@@ -44,7 +53,7 @@ namespace AnimusTest.Views
                 StrokeCap = SKStrokeCap.Round,
                 Style = SKPaintStyle.Stroke
             };
-
+            */
             Loaded += (s, e) => UpdateScale();
             SkiaCanvas.SizeChanged += (s, e) => UpdateScale(); // якщо розмір змінюється
             var st = new ScaleTransform();
@@ -71,6 +80,7 @@ namespace AnimusTest.Views
             {
                 bitmap = new SKBitmap(e.Info.Width, e.Info.Height);
                 drawingCanvas = new SKCanvas(bitmap);
+                DM.setCanvas(drawingCanvas);
             }
 
             e.Surface.Canvas.Clear(SKColors.White);
@@ -79,25 +89,25 @@ namespace AnimusTest.Views
 
         private void SkiaCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            isDrawing = true;
+            //DM.isDrawing = true;
             previousPoint = GetScaledPoint(e.GetPosition(SkiaCanvas));
 
-
+            DM.StartDrawing(previousPoint);
         }
 
         private void SkiaCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!isDrawing) return;
+            if (!DM.isDrawing) return;
 
             var currentPoint = GetScaledPoint(e.GetPosition(SkiaCanvas));
-            drawingCanvas.DrawLine(previousPoint, currentPoint, paint);
-            previousPoint = currentPoint;
+            DM.ContinueDrawing(currentPoint);
             SkiaCanvas.InvalidateVisual();
         }
 
         private void SkiaCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            isDrawing = false;
+            DM.EndDrawing();
+            SkiaCanvas.InvalidateVisual();
         }
 
         private SKPoint GetScaledPoint(Point point)
@@ -118,11 +128,16 @@ namespace AnimusTest.Views
         }
 
 
-
+        public void EraserButton_Click(object sender, RoutedEventArgs e)
+        {
+            DM.ToggleEraser();
+        }
 
 
 
     }
+
+
 
     public static class ExtensionMethods
     {

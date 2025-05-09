@@ -12,10 +12,18 @@
 
   <ItemGroup>
     <None Remove="Media\bg_faded.png" />
+    <None Remove="Media\close.png" />
+    <None Remove="Media\documents.png" />
+    <None Remove="Media\folder-open.png" />
+    <None Remove="Media\Fonts\Oxanium-Regular.ttf" />
+    <None Remove="Media\plus.png" />
     <None Remove="Media\start_bg.png" />
+    <None Remove="Views\folder-open.png" />
+    <None Remove="Views\plus.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3240.44" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SkiaSharp" Version="3.119.0" />
     <PackageReference Include="SkiaSharp.Views.WPF" Version="3.119.0" />
@@ -29,6 +37,22 @@
     <Content Include="Media\start_bg.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Media\close.png" />
+    <Resource Include="Media\documents.png" />
+    <Resource Include="Media\folder-open.png" />
+    <Resource Include="Media\Fonts\Oxanium-Regular.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Media\plus.png" />
+    <Resource Include="Views\folder-open.png" />
+    <Resource Include="Views\plus.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Media\BrushTextures\" />
   </ItemGroup>
 
 </Project>

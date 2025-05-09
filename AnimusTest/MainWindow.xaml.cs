@@ -44,6 +44,10 @@ namespace AnimusTest
         private bool testFrames = true;
         // тут створити унікальний список шарів
 
+        private System.Windows.Media.Brush diamondFill = new SolidColorBrush(Color.FromRgb(168, 85, 247));
+        private System.Windows.Media.Brush diamondBorder = new SolidColorBrush(Color.FromRgb(141, 54, 224));
+
+
 
         private Color chosenColor = Colors.Navy;
 
@@ -301,9 +305,9 @@ namespace AnimusTest
                     new Point(0, 15),
                     new Point(-5, 10)
                 },
-                        Fill = Brushes.CadetBlue,
-                        Stroke = Brushes.Blue,
-                        StrokeThickness = 1
+                        Fill = diamondFill,
+                        Stroke = diamondBorder,
+                        StrokeThickness = 2
                     };
 
                     Canvas.SetLeft(diamond, i * frameWidth + startOffset + frameWidth);
@@ -322,22 +326,30 @@ namespace AnimusTest
             for (int i = 0; i < ((TimelineCanvas.Width-startOffset) / 20); i++)
             {
                 int computedX = i * 20;
-                TextBlock textBlock = new TextBlock();
-                textBlock.Foreground = Brushes.Gray;
-                textBlock.Text = i.ToString();
-                Canvas.SetLeft(textBlock, computedX - 5 + startOffset);
-                Canvas.SetTop(textBlock, 3);
+                if (i % 5 == 0)
+                {
+                    
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Foreground = Brushes.Gray;
+                    textBlock.Text = i.ToString();
+                    Canvas.SetLeft(textBlock, computedX - 5 + startOffset);
+                    Canvas.SetTop(textBlock, 3);
+
+                    TimelineCanvas.Children.Add(textBlock);
+                }
+                
 
                 polyline = new Polyline
                 {
                     Points = new PointCollection { new Point(computedX + startOffset, 20), new Point(computedX + startOffset, 35) },
-                    Stroke = Brushes.Gray,
+
+                    Stroke = (i % 5 == 0)?Brushes.Gray:Brushes.DarkGray,
                     StrokeThickness = 1
                 };
 
                 
                 TimelineCanvas.Children.Add(polyline);
-                TimelineCanvas.Children.Add(textBlock);
+                
                 
             }
 
@@ -357,7 +369,7 @@ namespace AnimusTest
             {
                 if (currentFrameUIEl != null)
                 {
-                    currentFrameUIEl.Stroke = Brushes.Blue;
+                    currentFrameUIEl.Stroke = diamondBorder;
                 }
                 currentFrameUIEl = polygon;
                 currentFrameUIEl.Stroke = Brushes.Yellow;
@@ -482,7 +494,7 @@ namespace AnimusTest
         {
             if (currentFrameUIEl != null)
             {
-                currentFrameUIEl.Stroke = Brushes.Blue;
+                currentFrameUIEl.Stroke = diamondBorder;
             }
 
             for (int i = 0; i < FrameFigurines.Count; i++)

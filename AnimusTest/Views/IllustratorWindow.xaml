@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
         Title="Illustration Editor" Height="800" Width="1500" WindowState="Maximized">
-    <DockPanel LastChildFill="True" Background="DarkSlateGray">
+    <DockPanel LastChildFill="True" Background="#7a7a7a">
 
         <!-- Верхня панель (МЕНЮ) -->
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
+        <Menu DockPanel.Dock="Top" Background="#0c0c0c" Height="30" Foreground="#ddd"
+              FontSize="14">
+            <MenuItem Header="_File" Margin="5">
                 <MenuItem IsEnabled="True" Header="New"/>
                 <MenuItem IsEnabled="True" Header="Open" />
                 <MenuItem IsEnabled="True" Header="Save"/>
@@ -22,18 +23,42 @@
         </Menu>
 
         <!-- Ліва панель (ІНСТРУМЕНТИ) -->
-        <StackPanel DockPanel.Dock="Left" Background="DarkGray" Width="60">
-            <Button Content="✏" Width="40" Height="40" />
-            <Button Content="🧹" Width="40" Height="40" />
-            <Button Content="↶" Width="40" Height="40" />
-            <Button Content="↷" Width="40" Height="40" />
+        <StackPanel DockPanel.Dock="Left" Background="#0C0C0C" Width="130">
+            
+            <Grid Height="190" Width="78" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+
+                <Button Grid.Column="0" Grid.Row="0" x:Name="UndoButton" Content="↶" Style="{StaticResource ToolButtonStyle}" IsEnabled="False"/>
+                <Button Grid.Column="1" Grid.Row="0" x:Name="RedoButton" Content="↷" Style="{StaticResource ToolButtonStyle}" IsEnabled="False"/>
+
+                <Button Grid.Column="0" Grid.Row="1" Content="🖌" Style="{StaticResource ToolButtonStyle}"/>
+                <Button Grid.Column="1" Grid.Row="1" Content="🧹" Style="{StaticResource ToolButtonStyle}" Click="EraserButton_Click"/>
+
+                <Button Grid.Column="0" Grid.Row="2" x:Name="t1" Content="✒️" Style="{StaticResource ToolButtonStyle}"/>
+                <Button Grid.Column="1" Grid.Row="2" x:Name="t2" Content="🖼️" Style="{StaticResource ToolButtonStyle}"/>
+                <Button Grid.Column="0" Grid.Row="3" x:Name="t3" Content="🎨" Style="{StaticResource ToolButtonStyle}"/>
+                <Button Grid.Column="1" Grid.Row="3" x:Name="t4" Content="☼" Style="{StaticResource ToolButtonStyle}"/>
+                <Button Grid.Column="0" Grid.Row="4" x:Name="t5" Content="💬" Style="{StaticResource ToolButtonStyle}"/>
+                <Button Grid.Column="1" Grid.Row="4" x:Name="t6" Content="🌓" Style="{StaticResource ToolButtonStyle}"/>
+            </Grid>
         </StackPanel>
 
         <!-- Права панель (ШАРИ) -->
-        <StackPanel DockPanel.Dock="Right" Background="LightGray" Width="200">
-            <TextBlock Text="LAYERS" Padding="5"/>
-            <ListBox Name="LayerList" Height="350" Background="Gray"/>
-            <ToolBar></ToolBar>
+        <StackPanel DockPanel.Dock="Right" Background="#0C0C0C" Width="200">
+            <TextBlock Text="LAYERS" Padding="5" Foreground="White"/>
+            <ListBox Name="LayerList" Height="350" Background="#202020"/>
+            <ToolBar Background="#202020"></ToolBar>
         </StackPanel>
 
         <!-- КАНВАС -->
