@@ -40,7 +40,7 @@
                 <Button Grid.Column="1" Grid.Row="0" x:Name="RedoButton" Content="↷" Style="{StaticResource ToolButtonStyle}" Click="Redo_Click" IsEnabled="False"/>
 
                 <Button Grid.Column="0" Grid.Row="1" Content="🖌" Style="{StaticResource ToolButtonStyle}"/>
-                <Button Grid.Column="1" Grid.Row="1" Content="🧹" Style="{StaticResource ToolButtonStyle}"/>
+                <Button Grid.Column="1" Grid.Row="1" Content="🧹" Style="{StaticResource ToolButtonStyle}" Click="EraserButton_Click"/>
 
                 <Button Grid.Column="0" Grid.Row="2" x:Name="t1" Content="✒️" Style="{StaticResource ToolButtonStyle}"/>
                 <Button Grid.Column="1" Grid.Row="2" x:Name="t2" Content="🖼️" Style="{StaticResource ToolButtonStyle}"/>

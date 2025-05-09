@@ -8,6 +8,7 @@
     <UseWPF>true</UseWPF>
     <StartupObject>AnimusTest.App</StartupObject>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>Media\star.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +38,7 @@
     <Content Include="Media\start_bg.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Media\star.ico" />
   </ItemGroup>
 
   <ItemGroup>

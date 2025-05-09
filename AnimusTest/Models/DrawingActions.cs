@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Formats.Asn1.AsnWriter;
 using System.Windows.Shapes;
+using System.Windows.Ink;
 
 namespace AnimusTest.Models
 {
@@ -24,5 +25,22 @@ namespace AnimusTest.Models
         public ActionType Type => ActionType.Stroke;
 
 
+    }
+
+    public class RemoveLineAction : IAction
+    {
+        private Stroke stroke;
+        private Layer layer;
+
+        public RemoveLineAction(Stroke stroke, Layer layer)
+        {
+            this.stroke = stroke;
+            this.layer = layer;
+        }
+
+        public ActionType Type => ActionType.Delete;
+
+        public void Undo() => layer.Add(stroke);
+        public void Redo() => layer.Remove(stroke);
     }
 }

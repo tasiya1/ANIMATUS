@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -50,6 +51,7 @@ namespace AnimusTest
 
 
         private Color chosenColor = Colors.Navy;
+        private bool isErasing = false;
 
         public MainWindow() {
             //MessageBox.Show("Constructor called!");
@@ -90,6 +92,9 @@ namespace AnimusTest
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e) {
             // Для запобігання малювання в нікуди
+
+            isDrawing = true;
+            
             currentFrame ??= this.timeline.Frames[0];
             if (currentLayer == null)
             {
@@ -97,7 +102,8 @@ namespace AnimusTest
                 currentFrame.Layers.Add(currentLayer);
             }
 
-            isDrawing = true;
+            if (isErasing) return;
+
             currentStroke = new Stroke {
                 Color = Colors.Navy,
                 Width = 2
@@ -110,18 +116,19 @@ namespace AnimusTest
             currentStroke.Points.Add(e.GetPosition(DrawCanvas));
             currentLine.Points.Add(e.GetPosition(DrawCanvas));
 
-            //****
-            //.Add(currentStroke); // тут має робитися запис штриха на канвас, і потім після закінчення штрих має записатися в поле strokes 
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e) {
-            if (isDrawing) {
+            if (isDrawing && !isErasing) {
                 currentStroke.Points.Add(e.GetPosition(DrawCanvas));
 
                 DisplayFrame(currentFrame);
 
                 currentLine.Points.Add(e.GetPosition(DrawCanvas));
                 DrawCanvas.Children.Add(currentLine);
+            } else if (isDrawing && isErasing) {
+                
+                EraseAt(e.GetPosition(DrawCanvas).X, e.GetPosition(DrawCanvas).Y);
             }
         }
 
@@ -139,14 +146,16 @@ namespace AnimusTest
                 currentFrame.Layers.Add(currentLayer);
             }
             */
-
-            currentLayer.Strokes.Add(currentStroke);
-
-            /***********************************************************************/
-            var action = new DrawLineAction(currentStroke, currentLayer);
-            projectHistory.AddToHistory(action);
-            UndoButton.IsEnabled = true;
-            /***********************************************************************/
+            IAction action = null;
+            if (!isErasing)
+            {
+                currentLayer.Strokes.Add(currentStroke);
+                action = new DrawLineAction(currentStroke, currentLayer);
+                projectHistory.AddToHistory(action);
+                UndoButton.IsEnabled = true;
+            }
+            
+            //Прописати толково поводження з цим ерейзером!!!!!!!!!!!
 
             DisplayFrame(currentFrame);
 
@@ -400,6 +409,43 @@ namespace AnimusTest
 
             }
         }
+
+        public void EraseAt(double x, double y, double radius = 5)
+        {
+            var strokes = currentLayer.Strokes.ToList();
+            foreach (var stroke in strokes)
+            {
+                if (IsNear(new Point(x, y), stroke, radius))
+                {
+                    currentLayer.Strokes.Remove(stroke);
+
+                    IAction action = new RemoveLineAction(stroke, currentLayer);
+                    projectHistory.AddToHistory(action);
+
+                    DisplayFrame(currentFrame);
+                    //history.Push(new RemoveStrokeAction(stroke, currentLayer));
+                }
+            }
+
+        }
+
+        private void EraserButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (isErasing == false)
+            {
+                isErasing = true;
+            }
+            else
+            {
+                isErasing = false;
+            }
+        }
+
+        private bool IsNear(Point pos, Stroke stroke, double radius)
+        {
+            return stroke.Points.Any(p => (p - pos).Length <= radius);
+        }
+
 
         private void RefreshLayerListUI()
         {
