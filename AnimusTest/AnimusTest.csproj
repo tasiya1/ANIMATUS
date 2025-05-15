@@ -57,4 +57,10 @@
     <Folder Include="Media\BrushTextures\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Media\BrushTextures\testBrush.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

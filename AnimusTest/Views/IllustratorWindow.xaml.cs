@@ -71,20 +71,20 @@ namespace AnimusTest.Views
                     st.ScaleY /= 1.5;
                 }
             };
+            
 
         }
 
         private void SkiaCanvas_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-            if (bitmap.Width != e.Info.Width || bitmap.Height != e.Info.Height)
-            {
-                bitmap = new SKBitmap(e.Info.Width, e.Info.Height);
-                drawingCanvas = new SKCanvas(bitmap);
-                DM.setCanvas(drawingCanvas);
-            }
+            var canvas = e.Surface.Canvas;
+            canvas.Clear(SKColors.White);
 
-            e.Surface.Canvas.Clear(SKColors.White);
-            e.Surface.Canvas.DrawBitmap(bitmap, 0, 0);
+            foreach (var layer in DM.Layers)
+            {
+                if (!layer.IsVisible) continue;
+                canvas.DrawBitmap(layer.Bitmap, SKPoint.Empty);
+            }
         }
 
         private void SkiaCanvas_MouseDown(object sender, MouseButtonEventArgs e)

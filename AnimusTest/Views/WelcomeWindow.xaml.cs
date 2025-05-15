@@ -44,7 +44,7 @@ namespace AnimusTest.Views
 
         public void MyPortfolio_Click(object sender, EventArgs e)
         {
-            MyPortfolioWindow myPortfolioWindow = new MyPortfolioWindow();
+            LoginPage myPortfolioWindow = new LoginPage();
             myPortfolioWindow.Show();
             this.Close();
         }

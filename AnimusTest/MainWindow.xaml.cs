@@ -88,6 +88,9 @@ namespace AnimusTest
                 }
             };
 
+            currentFrame = timeline.Frames[0];
+            SelectFrameOnUI();
+
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e) {

@@ -11,6 +11,8 @@ namespace AnimusTest.Models {
         public string title { get; set; } = "Untitled";
         //public List<Shape> Shapes { get; set; } = new List<Shape>(); // тестові шейпи
         public List<Stroke> Strokes { get; set; } = new List<Stroke>();
+        public bool IsVisible { get; set; } = true;
+        public float Opacity { get; set; } = 1f;
 
         private Bitmap cashedBitmap = null; 
         private bool isDirty = false;
