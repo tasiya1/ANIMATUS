@@ -58,7 +58,7 @@ namespace AnimusTest.Controls
                 File.WriteAllText(filename, json);
             } else
             {
-                MessageBox.Show("Project was not saved");
+                MessageBox.Show("project was not saved");
             }
 
             

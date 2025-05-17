@@ -11,12 +11,12 @@
 
 		<StackPanel Grid.Row="0" Margin="0,20,0,10">
 			<Label Content="Логін"/>
-			<TextBox x:Name="UsernameTextBox" Width="200"/>
+            <TextBox x:Name="UsernameTextBox" Width="200"/>
 		</StackPanel>
 
 		<StackPanel Grid.Row="1" Margin="0,0,0,10">
 			<Label Content="Пароль"/>
-			<PasswordBox x:Name="PasswordBox" Width="200"/>
+            <PasswordBox x:Name="PasswordTextBox" Width="200"/>
 		</StackPanel>
 
 		<Button Grid.Row="2" Content="Увійти" Width="100" Click="LoginButton_Click"/>

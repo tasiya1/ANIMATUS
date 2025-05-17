@@ -16,28 +16,39 @@ namespace AnimusTest.Machines
         public bool isDrawing { get; set; } = false;
         private Models.Brush currentBrush;
         private List<Models.Brush> Brushes = new List<Models.Brush>();
-
         private SKBitmap bitmap;
         private SKCanvas drawingCanvas;
 
+        private Project Project { get; set; } = null;
+
         private SKPoint previousPoint;
 
-        public List<RasterLayer> Layers {get; set;} = new();
+
+
+        // ВИДАЛИТИ НАХ!
+
+
+
         public SKCanvas activeCanvas { get; set; } = null;
+        //public int activeFrameIndex = 0;
 
-        int ActiveLayerIndex = 0;
+        private readonly Project project;
+        
+        //public int ActiveLayerIndex = 0;
+
+        public DrawingMachine(Project project) {
 
 
-
-        public DrawingMachine(SKBitmap bitmap, SKCanvas drawingCanvas) {
-            this.bitmap = bitmap;
-            this.drawingCanvas = drawingCanvas;
             currentBrush = new Models.Pen(); // ДОДАТИ ІНІЦІАЛІЗАЦІЮ МАСИВУ ПЕНЗЛІВ
             // В МАЙБУТНЬОМУ (було б добре) Створити загальний клас Tool, від якого успадковуються Figure, Brush etc., а від них - відповідно підвиди інструментів(Figure: Rectangle, Line, Ellipse, Brush: Pen, Oil, Chalk...)
-            Layers.Add(CreateNewLayer(bitmap.Width, bitmap.Height));
-            Layers.Add(CreateNewLayer(bitmap.Width, bitmap.Height));
-            Layers.Add(CreateNewLayer(bitmap.Width, bitmap.Height));
+            this.project = project;
 
+            
+        }
+
+
+        public void DrawTest()
+        {
             currentBrush.body.Color = SKColors.Red;
             SetActiveLayer(1);
             StartDrawing(new SKPoint(0, 0));
@@ -47,14 +58,6 @@ namespace AnimusTest.Machines
             SetActiveLayer(0);
         }
 
-        /**
-         * 
-         *
-         * ПОФІКСИТЬ - СКЕЙЛ БІТМАПУ!!
-         *
-         *
-         */
-
         public void setCanvas(SKCanvas canvas)
         {
             this.drawingCanvas = canvas;
@@ -62,8 +65,8 @@ namespace AnimusTest.Machines
 
         public void SetActiveLayer(int index)
         {
-            if (index >= 0 && index < Layers.Count)
-                ActiveLayerIndex = index;
+            if (index >= 0 && index < project.CurrentFrame.Layers.Count)
+                project.CurrentLayerIndex = index;
         }
 
 
@@ -84,7 +87,7 @@ namespace AnimusTest.Machines
             isDrawing = true;
             previousPoint = point;
 
-            var layer = Layers[ActiveLayerIndex];
+            var layer = project.CurrentLayer;
             activeCanvas = new SKCanvas(layer.Bitmap);
         }
 
@@ -120,11 +123,4 @@ namespace AnimusTest.Machines
 
     }
 
-    public static class ExtensionMethods
-    {
-        public static SKPoint ToSKPoint(this System.Windows.Point point)
-        {
-            return new SKPoint((float)point.X, (float)point.Y);
-        }
-    }
 }

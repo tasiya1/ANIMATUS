@@ -13,8 +13,8 @@ namespace AnimusTest.Models
         {
             this.body = new SKPaint
             {
-                Color = SKColors.Black,
-                StrokeWidth = 5,
+                Color = SKColors.Purple,
+                StrokeWidth = 1,
                 IsAntialias = true,
                 StrokeCap = SKStrokeCap.Round,
                 Style = SKPaintStyle.Stroke

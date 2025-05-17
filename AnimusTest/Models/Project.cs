@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AnimusTest.Models
+{
+    public class Project
+    {
+        public int Width { get; }
+        public int Height { get; }
+        public List<Frame> Frames { get; } = new();
+        public int CurrentFrameIndex { get; set; }
+        public Frame CurrentFrame => Frames[CurrentFrameIndex];
+
+        public int CurrentLayerIndex { get; set; } = 0;
+        public Layer CurrentLayer => CurrentFrame.Layers[CurrentLayerIndex];
+
+        // Конструктор створює перший кадр
+        public Project(int width, int height, int layerCountPerFrame)
+        {
+            Width = width;
+            Height = height;
+            AddFrame(layerCountPerFrame);
+        }
+
+        public void AddFrame(int layerCount) {
+            Frames.Add(new Frame(Width, Height, layerCount));
+            CurrentFrameIndex = Frames.Count - 1;
+        }
+
+        public void RemoveFrame(int index) {
+            if (index >= 0 && index < Frames.Count) Frames.RemoveAt(index);
+            CurrentFrameIndex = Math.Clamp(CurrentFrameIndex, 0, Frames.Count - 1);
+        }
+    }
+}

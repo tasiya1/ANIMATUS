@@ -8,12 +8,12 @@
         <!-- Верхня панель (МЕНЮ) -->
         <Menu DockPanel.Dock="Top" Background="#0c0c0c" Height="30" Foreground="#ddd"
               FontSize="14">
-            <MenuItem Header="_File" Margin="5">
+            <MenuItem Header="_File">
                 <MenuItem IsEnabled="True" Header="New"/>
-                <MenuItem IsEnabled="True" Header="Open" />
-                <MenuItem IsEnabled="True" Header="Save"/>
+                <MenuItem IsEnabled="True" Header="Open" Click="OpenProject_Click"/>
+                <MenuItem IsEnabled="True" Header="Save"  Click="SaveProject_Click"/>
                 <Separator />
-                <MenuItem Header="_Exit"/>
+                <MenuItem Header="_Exit" Click="Exit_Click"/>
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Command="Cut" />
@@ -55,14 +55,30 @@
         </StackPanel>
 
         <!-- Права панель (ШАРИ) -->
-        <StackPanel DockPanel.Dock="Right" Background="#0C0C0C" Width="200">
+        <StackPanel DockPanel.Dock="Right" Background="#0C0C0C" Width="200"  Panel.ZIndex="6">
             <TextBlock Text="LAYERS" Padding="5" Foreground="White"/>
             <ListBox Name="LayerList" Height="350" Background="#202020"/>
             <ToolBar Background="#202020"></ToolBar>
         </StackPanel>
 
+        <!-- Нижня панель (ТАЙМЛАЙН) -->
+        <StackPanel DockPanel.Dock="Bottom" Height="240" Panel.ZIndex="5">
+            <StackPanel DockPanel.Dock="Top" Height="40" Background="#202020" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <Button Content="▷"  Style="{StaticResource ToolButtonStyle}" Width="40" Height="40" Click="PlayAnimation_Button"></Button>
+                <Button Content="⏸" Style="{StaticResource ToolButtonStyle}" Width="40" Height="40" Click="PauseAnimation_Button"></Button>
+                <Button Content="◼"  Style="{StaticResource ToolButtonStyle}" Width="40" Height="40" Click="StopAnimation_Button"></Button>
+            </StackPanel>
+
+            <ScrollViewer HorizontalScrollBarVisibility="Visible" Background="#737373" Foreground="Black">
+
+                <Canvas Name="TimelineCanvas" Height="185" Width="1470" Background="#0C0C0C" MouseDown="TimelineCursor_MouseDown" MouseUp="TimelineCanvas_MouseUp" MouseMove="TimelineCursor_MouseMove"/>
+
+            </ScrollViewer>
+
+        </StackPanel>
+
         <!-- КАНВАС -->
-        <Grid Margin="20">
+        <Grid Margin="20" Panel.ZIndex="1">
             <skia:SKElement x:Name="SkiaCanvas" Width="1500" Height="820"
                         PaintSurface="SkiaCanvas_PaintSurface" Cursor="Cross"
                         MouseMove="SkiaCanvas_MouseMove"

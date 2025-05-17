@@ -31,7 +31,7 @@ namespace AnimusTest
 
         private bool isDrawing = false;
         private Timeline timeline = new Timeline();
-        private Keyframe currentFrame;
+        private Models.Frame currentFrame;
         private Layer currentLayer;
         private Polygon currentFrameUIEl = null;
         private Polyline cursor = null;
@@ -64,7 +64,7 @@ namespace AnimusTest
             // кілька тестових фреймів
             for (int i = 0; i < 60; i++)
             {
-                timeline.Frames.Add(new Keyframe("Тернопіль"));
+                //timeline.Frames.Add(new Models.Frame("Тернопіль"));
             }
             
 
@@ -101,7 +101,7 @@ namespace AnimusTest
             currentFrame ??= this.timeline.Frames[0];
             if (currentLayer == null)
             {
-                currentLayer = new Layer();
+                //currentLayer = new Layer();
                 currentFrame.Layers.Add(currentLayer);
             }
 
@@ -170,7 +170,7 @@ namespace AnimusTest
             Debug.WriteLine("");
         }
 
-        private void RenderFrame(Keyframe frame) {
+        private void RenderFrame(Models.Frame frame) {
             
             DrawCanvas.Children.Clear();
 
@@ -200,7 +200,7 @@ namespace AnimusTest
         }
 
 
-        private void DisplayFrame(Keyframe frame)
+        private void DisplayFrame(Models.Frame frame)
         {
             DrawCanvas.Children.Clear();
 
@@ -241,7 +241,7 @@ namespace AnimusTest
             }
         }
 
-        private void DrawOnionSkin(Keyframe frame, Color color, double opacity)
+        private void DrawOnionSkin(Models.Frame frame, Color color, double opacity)
         {
             foreach (Layer layer in frame.Layers)
             {
@@ -304,8 +304,8 @@ namespace AnimusTest
 
             for (int i = 0; i < timeline.Frames.Count; i++)
             {
-                Keyframe frame = timeline.Frames[i];
-
+                Models.Frame frame = timeline.Frames[i];
+                /*
                 if (frame.isKey)
                 {
                     Polygon diamond = new Polygon
@@ -327,13 +327,13 @@ namespace AnimusTest
 
                     int frameIndex = i;
                     diamond.Tag = frame;
-                    diamond.MouseDown += OnKeyframeClick;
+                    diamond.MouseDown += OnKeyframeUI_Click;
 
                     TimelineCanvas.Children.Add(diamond);
 
                     FrameFigurines.Add(diamond);
                     
-                }
+                }*/
             }
             for (int i = 0; i < ((TimelineCanvas.Width-startOffset) / 20); i++)
             {
@@ -377,7 +377,7 @@ namespace AnimusTest
 
         private void OnKeyframeClick(object sender, MouseButtonEventArgs e)
         {
-            if (sender is Polygon polygon && polygon.Tag is Keyframe frame)
+            if (sender is Polygon polygon && polygon.Tag is Models.Frame frame)
             {
                 if (currentFrameUIEl != null)
                 {
