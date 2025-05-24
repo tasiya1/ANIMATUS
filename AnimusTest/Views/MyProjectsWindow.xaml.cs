@@ -7,9 +7,9 @@ using System.Windows;
 
 namespace AnimusTest.Views
 {
-    public partial class MyPortfolioWindow : Window
+    public partial class MyProjectsWindow : Window
     {
-        public MyPortfolioWindow()
+        public MyProjectsWindow()
         {
             InitializeComponent();
 
@@ -17,7 +17,7 @@ namespace AnimusTest.Views
 
 
         }
-        private void Back_Click(object sender, RoutedEventArgs e)
+        private void Exit_Click(object sender, RoutedEventArgs e)
         {
             WelcomeWindow welcomeWindow = new WelcomeWindow();
             welcomeWindow.Show();
@@ -27,7 +27,7 @@ namespace AnimusTest.Views
         async void InitializeAsync()
         {
             await Browser.EnsureCoreWebView2Async(null);
-            Browser.Source = new Uri("http://localhost:8080");
+            Browser.Source = new Uri("http://localhost:3000");
         }
 
 

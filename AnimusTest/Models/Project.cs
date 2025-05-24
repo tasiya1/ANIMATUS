@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,12 @@ namespace AnimusTest.Models
 {
     public class Project
     {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Author { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime LastModifiedAt { get; set; } = DateTime.Now;
+
         public int Width { get; }
         public int Height { get; }
         public List<Frame> Frames { get; } = new();
@@ -16,6 +23,10 @@ namespace AnimusTest.Models
 
         public int CurrentLayerIndex { get; set; } = 0;
         public Layer CurrentLayer => CurrentFrame.Layers[CurrentLayerIndex];
+
+        public bool isSaved { get; set; } = false;
+
+        //public Bitmap Thumbnail { get; set; }
 
         // Конструктор створює перший кадр
         public Project(int width, int height, int layerCountPerFrame)

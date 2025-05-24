@@ -35,6 +35,7 @@ namespace AnimusTest.Views
         private Project project;
         private AnimationMachine animator;
         private RenderMachine renderer;
+        private FileController fileController;
 
         public IllustratorWindow()
         {
@@ -46,7 +47,7 @@ namespace AnimusTest.Views
             DM = new DrawingMachine(project);
             renderer = new RenderMachine(project);
             animator = new AnimationMachine(project, TimelineCanvas, () => SkiaCanvas.InvalidateVisual(), () => UpdateScale());
-
+            fileController = new();
 
             //додати тестові фрейми
             for (int i = 0; i < 60; i++)
@@ -155,10 +156,12 @@ namespace AnimusTest.Views
         public void UpdateScale()
         {
 
-            if (SkiaCanvas.ActualWidth == 0 || SkiaCanvas.ActualHeight == 0) return;
+            var layer = project.CurrentLayer;
+            if (layer?.Bitmap == null || SkiaCanvas.ActualWidth == 0 || SkiaCanvas.ActualHeight == 0)
+                return;
 
-            scaleX = (float)project.CurrentLayer.Bitmap.Width / (float)SkiaCanvas.ActualWidth;
-            scaleY = (float)project.CurrentLayer.Bitmap.Height / (float)SkiaCanvas.ActualHeight;
+            scaleX = (float)layer.Bitmap.Width / (float)SkiaCanvas.ActualWidth;
+            scaleY = (float)layer.Bitmap.Height / (float)SkiaCanvas.ActualHeight;
         }
 
 
@@ -322,6 +325,25 @@ namespace AnimusTest.Views
             */
         }
 
+        private void SaveProjectAs_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExportProject_Click(object sender, RoutedEventArgs e)
+        {
+            /*
+            if (project.Frames.Count == 0)
+            {
+                MessageBox.Show("No frames to export.");
+                return;
+            }
+            // Save the project as a video or image sequence
+            fileController.ExportProject(project);
+            MessageBox.Show("Project exported successfully!");
+            */
+        }
+
         private void TimelineCursor_MouseDown(object sender, MouseEventArgs e)
         {
             double mouseX = e.GetPosition(TimelineCanvas).X;
@@ -403,6 +425,19 @@ namespace AnimusTest.Views
             timelineList.Items.Clear();
         }
 
+
+        public async void PublishProject_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            
+            if (project.Frames.Count == 0)
+            {
+                MessageBox.Show("Nothing to publish.");
+                return;
+            }
+            // Save the project as a video or image sequence
+            await fileController.PublishProjectAsync(project);       
+            
+        }
 
 
     }

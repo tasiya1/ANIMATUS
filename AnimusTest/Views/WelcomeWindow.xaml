@@ -10,7 +10,7 @@
         </Grid.Background>
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Welcome back!" FontSize="48" FontWeight="Bold" Foreground="White"
+            <TextBlock x:Name="WelcomeText" Text="Welcome!" FontSize="48" FontWeight="Bold" Foreground="White"
                        HorizontalAlignment="Center" TextAlignment="Center" Margin="20"/>
 
             <Button Style="{StaticResource WelcomeButtonStyle}" Click="NewProject_Click">
@@ -26,18 +26,20 @@
                     <TextBlock Text="Open Existing" VerticalAlignment="Center" FontSize="18"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource WelcomeButtonStyle}" Click="NewIllustration_Click">
 
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Image Source="/Views/plus.png" Width="28" Height="28" Margin="0,0,5,5"/>
-                    <TextBlock Text="Create Illustration" VerticalAlignment="Center" FontSize="18"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource WelcomeButtonStyle}" Click="MyPortfolio_Click">
+            <Button x:Name="MyPortfolioButton" Style="{StaticResource WelcomeButtonStyle}" Click="MyPortfolio_Click" Visibility="Collapsed">
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Image Source="/Media/documents.png" Width="28" Height="28" Margin="0,0,5,5"/>
-                    <TextBlock Text="My Portfolio" VerticalAlignment="Center" FontSize="18"/>
+                    <TextBlock x:Name="MyPortfolioButton_Text" Text="My Portfolio" VerticalAlignment="Center" FontSize="18"/>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="LoginButton" Style="{StaticResource WelcomeButtonStyle}" Click="LoginButton_Click">
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="/Media/documents.png" Width="28" Height="28" Margin="0,0,5,5"/>
+                    <TextBlock x:Name="LoginButton_Text" Text="Log in" VerticalAlignment="Center" FontSize="18"/>
                 </StackPanel>
             </Button>
             <Button Style="{StaticResource WelcomeButtonStyle}" Click="Exit_Click">

@@ -8,17 +8,36 @@
         <!-- Верхня панель (МЕНЮ) -->
         <Menu DockPanel.Dock="Top" Background="#0c0c0c" Height="30" Foreground="#ddd"
               FontSize="14">
-            <MenuItem Header="_File">
+            <MenuItem Header="_File" Style="{StaticResource MenuItemOnPanel}">
                 <MenuItem IsEnabled="True" Header="New"/>
                 <MenuItem IsEnabled="True" Header="Open" Click="OpenProject_Click"/>
                 <MenuItem IsEnabled="True" Header="Save"  Click="SaveProject_Click"/>
+                <MenuItem IsEnabled="True" Header="Save As" Click="SaveProjectAs_Click"/>
+                <MenuItem IsEnabled="True" Header="Export" Click="ExportProject_Click"/>
                 <Separator />
                 <MenuItem Header="_Exit" Click="Exit_Click"/>
             </MenuItem>
-            <MenuItem Header="_Edit">
+            <MenuItem Header="_Edit" Style="{StaticResource MenuItemOnPanel}">
                 <MenuItem Command="Cut" />
                 <MenuItem Command="Copy" />
                 <MenuItem Command="Paste" />
+            </MenuItem>
+            <MenuItem Header="Project" Style="{StaticResource MenuItemOnPanel}">
+                <MenuItem Header="Publish" Click="PublishProject_ClickAsync"/>
+            </MenuItem>
+            <MenuItem Header="_View" Style="{StaticResource MenuItemOnPanel}">
+                <MenuItem Header="Zoom In"/>
+                <MenuItem Header="Zoom Out"/>
+                <MenuItem Header="Reset Zoom"/>
+                <Separator/>
+                <MenuItem Header="Dockers" Style="{StaticResource MenuItemOnPanel}">
+                    <CheckBox Content="AnimationDocker" IsChecked="True"/>
+                    <CheckBox Content="StoryboardDocker" IsChecked="True"/>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Settings" Style="{StaticResource MenuItemOnPanel}">
+                
             </MenuItem>
         </Menu>
 
@@ -67,9 +86,10 @@
                 <Button Content="▷"  Style="{StaticResource ToolButtonStyle}" Width="40" Height="40" Click="PlayAnimation_Button"></Button>
                 <Button Content="⏸" Style="{StaticResource ToolButtonStyle}" Width="40" Height="40" Click="PauseAnimation_Button"></Button>
                 <Button Content="◼"  Style="{StaticResource ToolButtonStyle}" Width="40" Height="40" Click="StopAnimation_Button"></Button>
+                <Button Content="x" Width="30" Height="30" HorizontalAlignment="Right" Foreground="#CFCFCF" Background="#202020" BorderThickness="0" FontSize="15"/>
             </StackPanel>
 
-            <ScrollViewer HorizontalScrollBarVisibility="Visible" Background="#737373" Foreground="Black">
+            <ScrollViewer HorizontalScrollBarVisibility="Visible" Background="#737373" Foreground="Black" BorderBrush="Aquamarine" BorderThickness="5">
 
                 <Canvas Name="TimelineCanvas" Height="185" Width="1470" Background="#0C0C0C" MouseDown="TimelineCursor_MouseDown" MouseUp="TimelineCanvas_MouseUp" MouseMove="TimelineCursor_MouseMove"/>
 
