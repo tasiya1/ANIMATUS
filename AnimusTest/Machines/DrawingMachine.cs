@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using AnimusTest.Models;
+﻿using AnimusTest.Models;
 using SkiaSharp;
 
 namespace AnimusTest.Machines
@@ -14,58 +7,70 @@ namespace AnimusTest.Machines
     {
         public bool isErasing { get; set; } = false;
         public bool isDrawing { get; set; } = false;
-        private Models.Brush currentBrush;
-        private List<Models.Brush> Brushes = new List<Models.Brush>();
+        public Models.Brush currentBrush;
+        public SKPaint Eraser;
+        public List<Models.Brush> Brushes = new List<Models.Brush>();
         private SKBitmap bitmap;
         private SKCanvas drawingCanvas;
 
-        private Project Project { get; set; } = null;
-
         private SKPoint previousPoint;
-
-
-
-        // ВИДАЛИТИ НАХ!
-
-
 
         public SKCanvas activeCanvas { get; set; } = null;
         //public int activeFrameIndex = 0;
 
         private readonly Project project;
-        
+        private Action requestRedraw;
+
         //public int ActiveLayerIndex = 0;
 
-        public DrawingMachine(Project project) {
+        public DrawingMachine(Project project, Action requestRedraw)
+        {
 
 
-            currentBrush = new Models.Pen(); // ДОДАТИ ІНІЦІАЛІЗАЦІЮ МАСИВУ ПЕНЗЛІВ
+            Brushes.Add(new Models.Pencil());
+            Brushes.Add(new Models.Marker());
+            Brushes.Add(new Models.Charcoal());
+            Brushes.Add(new Models.Acryl());
+            Brushes.Add(new Models.Sponge());
+            Brushes.Add(new Models.Airbrush());
+            currentBrush = Brushes[0];
+            Eraser = new SKPaint
+            {
+                Color = SKColors.Black,
+                IsAntialias = true,
+                StrokeWidth = 20,
+                Style = SKPaintStyle.Stroke,
+                BlendMode = SKBlendMode.Clear,
+                StrokeCap = SKStrokeCap.Round
+            };
+            
+
+
             // В МАЙБУТНЬОМУ (було б добре) Створити загальний клас Tool, від якого успадковуються Figure, Brush etc., а від них - відповідно підвиди інструментів(Figure: Rectangle, Line, Ellipse, Brush: Pen, Oil, Chalk...)
             this.project = project;
-
-            
+            this.requestRedraw = requestRedraw;
+            //DrawTest();
         }
 
 
         public void DrawTest()
         {
-            currentBrush.body.Color = SKColors.Red;
             SetActiveLayer(1);
-            StartDrawing(new SKPoint(0, 0));
-            ContinueDrawing(new SKPoint(300, 500));
-            EndDrawing();
-            currentBrush.body.Color = SKColors.Black;
-            SetActiveLayer(0);
-        }
+            //StartDrawing(new SKPoint(0, 0));
+            //ContinueDrawing(new SKPoint(300, 500));
+            //EndDrawing();
 
-        public void setCanvas(SKCanvas canvas)
-        {
-            this.drawingCanvas = canvas;
+            activeCanvas = new SKCanvas(project.CurrentLayer.Bitmap);
+            activeCanvas.DrawCircle(1490, 990, 5, new SKPaint { Color = SKColors.Blue });
+            activeCanvas?.Dispose();
+            activeCanvas = null;
+
+            SetActiveLayer(0);
         }
 
         public void SetActiveLayer(int index)
         {
-            if (index >= 0 && index < project.CurrentFrame.Layers.Count)
+            if (index < project.CurrentFrame.Layers.Count)
                 project.CurrentLayerIndex = index;
         }
 
@@ -73,11 +78,11 @@ namespace AnimusTest.Machines
         public void ToggleEraser()
         {
             if (isErasing) {
-                currentBrush.body.BlendMode = SKBlendMode.SrcOver;
+                //currentBrush.eraser.BlendMode = SKBlendMode.SrcOver;
                 isErasing = false;
             } else
             {
-                currentBrush.body.BlendMode = SKBlendMode.Clear;
+                //currentBrush.eraser.BlendMode = SKBlendMode.Clear;
                 isErasing = true;
             }
         }
@@ -95,31 +100,32 @@ namespace AnimusTest.Machines
         {
             if (!isDrawing || activeCanvas == null) return;
 
-            //drawingCanvas.DrawLine(previousPoint, point, currentBrush.body);
-            activeCanvas.DrawLine(previousPoint, point, currentBrush.body);
-            previousPoint = point;
+            if (!isErasing)
+                currentBrush.Draw(previousPoint, point, activeCanvas);
+            else activeCanvas.DrawLine(previousPoint, point, Eraser);
+                previousPoint = point;
+            this.requestRedraw?.Invoke();
         }
 
-        public void EndDrawing() { 
+        public void EndDrawing() {
+            project.CurrentFrame.isDirty = true;
             isDrawing = false;
             activeCanvas?.Dispose();
             activeCanvas = null;
+            this.requestRedraw?.Invoke();
         }
 
 
-        public void setBrush(Models.Brush brush)
+        public void setBrush(int index, System.Windows.Media.Color? selectedColor, float brushSizeBinded)
         {
-            currentBrush = brush;
+           currentBrush = Brushes[index]; 
+            currentBrush.TintBrush(
+                selectedColor.HasValue
+                ? new SKColor(selectedColor.Value.R, selectedColor.Value.G, selectedColor.Value.B, selectedColor.Value.A)
+                : SKColors.Black
+            );
+            currentBrush.brushSize = brushSizeBinded;
         }
-        RasterLayer CreateNewLayer(int width, int height)
-        {
-            var bmp = new SKBitmap(width, height);
-            using (var canvas = new SKCanvas(bmp))
-                canvas.Clear(SKColors.Transparent);
-
-            return new RasterLayer { Bitmap = bmp };
-        }
-
 
     }
 

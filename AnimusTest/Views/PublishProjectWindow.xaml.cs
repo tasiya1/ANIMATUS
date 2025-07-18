@@ -12,17 +12,38 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AnimusTest.Controls;
+using AnimusTest.Models;
 
 namespace AnimusTest.Views
 {
     /// <summary>
     /// Interaction logic for PublishProjectWindow.xaml
     /// </summary>
-    public partial class PublishProjectWindow : Page
+    public partial class PublishProjectWindow : Window
     {
-        public PublishProjectWindow()
+
+        private Project project;
+
+        public PublishProjectWindow(Project project)
         {
             InitializeComponent();
+
+            this.project = project;
+        }
+
+        public async void PublishProject_Click(object sender, RoutedEventArgs e)
+        {
+            if (project.Frames.Count == 0)
+            {
+                MessageBox.Show("Nothing to publish.");
+                return;
+            }
+
+            project.Title = TitleTextBox.Text;
+            project.Description = DescriptionTextBox.Text;
+
+            await FileController.PublishProjectAsync(project);
         }
     }
 }

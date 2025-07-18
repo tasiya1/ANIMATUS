@@ -1,4 +1,4 @@
-﻿<Page x:Class="AnimusTest.Views.PublishProjectWindow"
+﻿<Window x:Class="AnimusTest.Views.PublishProjectWindow"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,9 +6,39 @@
       xmlns:local="clr-namespace:AnimusTest.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PublishProjectWindow">
+      Title="PublishProjectWindow"
+        Background="#404040">
 
-    <Grid>
-        
+    <Grid Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,20,0,10" Orientation="Horizontal">
+            <Label Content="Artwork Title:" Width="90" Style="{StaticResource LabelOnDark}"/>
+            <TextBox x:Name="TitleTextBox" Width="200" Style="{StaticResource InputDark}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Margin="0,20,0,10" Orientation="Horizontal">
+            <Label Content="Description:" Width="90" Style="{StaticResource LabelOnDark}"/>
+            <TextBox x:Name="DescriptionTextBox" Width="200" Height="100" Style="{StaticResource InputDark}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Margin="0,20,0,10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label Content="Artwork type:" Width="90" Style="{StaticResource LabelOnDark}"/>
+            <TextBlock x:Name="UsernameTextBox" Width="200" Height="20" FontStyle="Italic"
+                       
+                       Foreground="White" Text="Illustration"/>
+        </StackPanel>
+
+
+
+
+        <Button Grid.Row="3" Content="Publish" Width="100" 
+                Click="PublishProject_Click"
+                 Style="{StaticResource ActionButton}"/>
     </Grid>
-</Page>
+</Window>

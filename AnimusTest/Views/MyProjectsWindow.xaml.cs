@@ -27,9 +27,12 @@ namespace AnimusTest.Views
         async void InitializeAsync()
         {
             await Browser.EnsureCoreWebView2Async(null);
-            Browser.Source = new Uri("http://localhost:3000");
+            Browser.Source = new Uri("http://localhost:3000/login");
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }

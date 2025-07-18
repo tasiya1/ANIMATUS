@@ -6,6 +6,7 @@
         WindowState="Maximized" WindowStartupLocation="CenterScreen">
 
     <Grid>
-        <wv2:WebView2 Name="Browser" Source="http://localhost:8080"/>
+        <!--<Button Click="this.Close();">x</Button>-->
+        <wv2:WebView2 Name="Browser" Source="http://localhost:3000/login"/>
     </Grid>
 </Window>

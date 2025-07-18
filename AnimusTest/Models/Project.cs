@@ -9,14 +9,14 @@ namespace AnimusTest.Models
 {
     public class Project
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string Title { get; set; } = "New Project " + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+        public string Description { get; set; } = "No description";
         public string Author { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime LastModifiedAt { get; set; } = DateTime.Now;
 
-        public int Width { get; }
-        public int Height { get; }
+        public int Width { get; set; }
+        public int Height { get; set; }
         public List<Frame> Frames { get; } = new();
         public int CurrentFrameIndex { get; set; }
         public Frame CurrentFrame => Frames[CurrentFrameIndex];
@@ -28,12 +28,16 @@ namespace AnimusTest.Models
 
         //public Bitmap Thumbnail { get; set; }
 
-        // Конструктор створює перший кадр
         public Project(int width, int height, int layerCountPerFrame)
         {
+            this.Title = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
             Width = width;
             Height = height;
             AddFrame(layerCountPerFrame);
+        }
+
+        public Project() {
+            this.Title = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
         }
 
         public void AddFrame(int layerCount) {

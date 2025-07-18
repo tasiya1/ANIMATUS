@@ -20,27 +20,17 @@ namespace AnimusTest.Models
             this.layer = layer;
         }
 
-        public void Undo() => layer.Remove(stroke);
-        public void Redo() => layer.Add(stroke);
         public ActionType Type => ActionType.Stroke;
 
-
-    }
-
-    public class RemoveLineAction : IAction
-    {
-        private Stroke stroke;
-        private Layer layer;
-
-        public RemoveLineAction(Stroke stroke, Layer layer)
+        public void Redo()
         {
-            this.stroke = stroke;
-            this.layer = layer;
+            throw new NotImplementedException();
         }
 
-        public ActionType Type => ActionType.Delete;
-
-        public void Undo() => layer.Add(stroke);
-        public void Redo() => layer.Remove(stroke);
+        public void Undo()
+        {
+            throw new NotImplementedException();
+        }
+    
     }
 }

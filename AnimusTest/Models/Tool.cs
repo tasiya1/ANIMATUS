@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace AnimusTest.Models
 {
-    public class Tool
+    public interface Tool
     {
-        public Tool() { }
+
     }
 }

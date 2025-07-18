@@ -9,10 +9,16 @@
     <StartupObject>AnimusTest.App</StartupObject>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationIcon>Media\star.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Media\bg_faded.png" />
+    <None Remove="Media\BrushTextures\acryl.png" />
+    <None Remove="Media\BrushTextures\airbrush.png" />
+    <None Remove="Media\BrushTextures\charcoal.png" />
+    <None Remove="Media\BrushTextures\marker.png" />
+    <None Remove="Media\BrushTextures\sponge.png" />
     <None Remove="Media\close.png" />
     <None Remove="Media\documents.png" />
     <None Remove="Media\folder-open.png" />
@@ -24,17 +30,34 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.3.0" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3240.44" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SkiaSharp" Version="3.119.0" />
     <PackageReference Include="SkiaSharp.Views.WPF" Version="3.119.0" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.2" />
+    <PackageReference Include="Xabe.FFmpeg" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Media\bg_faded.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\BrushTextures\acryl.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\BrushTextures\airbrush.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\BrushTextures\charcoal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\BrushTextures\marker.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\BrushTextures\sponge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Media\start_bg.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -43,6 +66,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Media\BrushTextures\pencil.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Media\close.png" />
     <Resource Include="Media\documents.png" />
     <Resource Include="Media\folder-open.png" />
@@ -52,17 +78,6 @@
     <Resource Include="Media\plus.png" />
     <Resource Include="Views\folder-open.png" />
     <Resource Include="Views\plus.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Media\BrushTextures\" />
-    <Folder Include="Utils\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Media\BrushTextures\testBrush.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

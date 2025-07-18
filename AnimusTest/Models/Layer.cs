@@ -11,9 +11,6 @@ namespace AnimusTest.Models {
     public class Layer {
 
         public SKBitmap Bitmap { get; }
-        public string title { get; set; } = "Untitled";
-        public List<Shape> Shapes { get; set; } = new List<Shape>(); // тестові шейпи
-        public List<Stroke> Strokes { get; set; } = new List<Stroke>();
         public bool IsVisible { get; set; } = true;
         public float Opacity { get; set; } = 1f;
 
@@ -30,6 +27,11 @@ namespace AnimusTest.Models {
             canvas.Clear(SKColors.Transparent);
         }
 
+        public Layer(SKBitmap bitmap)
+        {
+            Bitmap = bitmap;
+        }
+
         public void GetRenderedBitmap()
         {
 
@@ -40,17 +42,6 @@ namespace AnimusTest.Models {
 
         }
 
-        public void Remove(Stroke stroke)
-        {
-            //throw new NotImplementedException();
-            Strokes.Remove(stroke);
-        }
-
-        public void Add(Stroke stroke)
-        {
-            //throw new NotImplementedException();
-            Strokes.Add(stroke);
-        }
     }
 
 

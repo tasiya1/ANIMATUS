@@ -10,15 +10,23 @@ using System.Windows.Shapes;
 using System.Windows;
 using AnimusTest.Models;
 using AnimusTest.Views;
+using SkiaSharp;
+using Frame = AnimusTest.Models.Frame;
 
 namespace AnimusTest.Machines
 {
     public class AnimationMachine
     {
         public Project project { get; }
+        public List<SKBitmap> frameCache = new();
         public Canvas TimelineCanvas { get; set; }
         private readonly Action requestRedraw;
         private readonly Action requestUpdateScale;
+
+        public bool ShowPreviousFrame { get; set; } = true;
+        public bool ShowNextFrame { get; set; } = false;
+        public float OnionSkinOpacity { get; set; } = 0.3f;
+
 
         private Polygon currentFrameUIEl = null;
         private Polyline cursor = null;
@@ -33,7 +41,7 @@ namespace AnimusTest.Machines
         {
             this.project = project;
             this.TimelineCanvas = timelineCanvas;
-            this.requestRedraw = redraw; // буде подавати запит на перемальовування канвасу, коли користувач перемикає кадр
+            this.requestRedraw = redraw;
             this.requestUpdateScale = requestUpdateScale;
         }
 
@@ -145,7 +153,8 @@ namespace AnimusTest.Machines
 
         private void OnKeyframeUI_Click(object sender, MouseButtonEventArgs e)
         {
-            
+            RegenerateFrameCache();
+
             if (sender is Polygon polygon && polygon.Tag is Models.Frame frame)
             {
                 if (currentFrameUIEl != null)
@@ -172,6 +181,7 @@ namespace AnimusTest.Machines
             for (int i = 0; i < project.Frames.Count; i++)
             {
                 //currentFrame = timeline.Frames[i];
+
                 project.CurrentFrameIndex = i;
                 Canvas.SetLeft(cursor, i * 20);
                 RenderFrame(project.Frames[i]);
@@ -268,6 +278,43 @@ namespace AnimusTest.Machines
 
         }
 
+        private void DrawFrame(SKCanvas canvas, Frame frame, SKColor color)
+        {
+            foreach (var layer in frame.Layers)
+            {
+                if (!layer.IsVisible) continue;
+
+                using var paint = new SKPaint
+                {
+                    Color = color,
+                    IsAntialias = true
+                };
+
+                canvas.DrawBitmap(layer.Bitmap, SKPoint.Empty, paint);
+            }
+        }
+
+        public void RegenerateFrameCache()
+        {
+            frameCache.Clear();
+            
+            foreach (var frame in project.Frames)
+            {
+                var bmp = new SKBitmap(project.Width, project.Height);
+                using var surface = new SKCanvas(bmp);
+
+                surface.Clear(SKColors.Transparent);
+
+                foreach (var layer in frame.Layers)
+                {
+                    if (!layer.IsVisible || layer.Bitmap == null) continue;
+                    surface.DrawBitmap(layer.Bitmap, SKPoint.Empty);
+                }
+
+
+                frameCache.Add(bmp);
+            }
+        }
 
 
     }

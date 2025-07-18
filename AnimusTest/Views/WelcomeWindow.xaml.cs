@@ -57,7 +57,7 @@ namespace AnimusTest.Views
         {
             MyProjectsWindow myPortfolioWindow = new();
             myPortfolioWindow.Show();
-            this.Close();
+            //this.Close();
         }
 
         private void SetWelcomeWindowStateToLoggedIn()
